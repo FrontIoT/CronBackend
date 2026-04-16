@@ -1,4 +1,6 @@
-﻿{ ClassType=Abstract }
+﻿Use CronBackend\Stucts\BusinessProcessRegister.pkg
+
+{ ClassType=Abstract }
 Class cCronBackendBase is a cObject
     Procedure Construct_Object
         Forward Send Construct_Object
@@ -9,6 +11,8 @@ Class cCronBackendBase is a cObject
         Property Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed
         
         Property String psCronFilePath 'Programs\cron.txt'
+        
+        Property tBusinessProcessRegister[] paBPRegister
         
     End_Procedure
     
@@ -21,6 +25,20 @@ Class cCronBackendBase is a cObject
     
     // Here is a good place to put tests calls of your Business Processes to run directly during development
     Procedure OnProcessStart
+        Error 300 "You need to implement this in order to register Business Processes that should be executed"
+        
+        // Integer iSize
+        // tBusinessProcessRegister[] atBusinessProcessRegister
+        // Set pbProcessHasStarted to True
+        //
+        // Move (SizeOfArray(atBusinessProcessRegister)) to iSize
+        // // Register Business Processes here so they can be called by the script later
+        // Send RegisterToCron of oUnitTestDoNotRemove (&atBusinessProcessRegister[iSize])
+        //
+        //
+        // // Store the register
+        // Set paBPRegister to atBusinessProcessRegister
+
     End_Procedure
     
     // PRIVATE
@@ -114,85 +132,70 @@ Class cCronBackendBase is a cObject
     Procedure StartCronProcess
         Boolean bTestState bExitAfterRestartAfterCycles
         Integer iIntervalFrequency iRestartAfterCycles iCounter
+        tBusinessProcessRegister[] aBPRegister
         
         Get pbTestState to bTestState
         Get piIntervalFrequency to iIntervalFrequency
         Get piRestartAfterCycles to iRestartAfterCycles
         Get pbExitAfterRestartAfterCycles to bExitAfterRestartAfterCycles
         
+        // Register Business Processes in paBPRegister
         Send OnProcessStart
+
+        Get paBPRegister to aBPRegister
         
-//        String[] saCronList
-//
-//        Integer iMinute iHour iDay iMonth iWeekDay iCronCnt iCnt
-//        DateTime dtNow dtCronCheck
-//        Move (CurrentDateTime()) to dtNow
-//        
-//        Move (DateGetMinute(dtNow)) to iMinute
-//        Move (DateGetHour(dtNow)) to iHour
-//        Move (DateGetDay(dtNow)) to iDay
-//        Move (DateGetMonth(dtNow)) to iMonth
-//        Move (DateGetDayOfWeek(dtNow)) to iWeekDay
-//        
-//        String sApplicationPath
-//        Get psHome of (oWorkspace(oApplication)) to sApplicationPath
-//        Send DebugLog "INFO" ("Cron Backend script started " + sApplicationPath)
-//        
-//        Move (CurrentDateTime()) to dtNow
-//        Move dtNow to dtCronCheck
-//        
+        String[] saCronList
+
+        Integer iMinute iHour iDay iMonth iWeekDay iCronCnt iCnt iBPCnt iBPTotalCnt
+        DateTime dtNow dtCronCheck
+        Move (CurrentDateTime()) to dtNow
+        
+        Move (DateGetMinute(dtNow)) to iMinute
+        Move (DateGetHour(dtNow)) to iHour
+        Move (DateGetDay(dtNow)) to iDay
+        Move (DateGetMonth(dtNow)) to iMonth
+        Move (DateGetDayOfWeek(dtNow)) to iWeekDay
+        
+        Move (CurrentDateTime()) to dtNow
+        Move dtNow to dtCronCheck
+
         Move 0 to iCounter
         Repeat
             
-//            Move (CurrentDateTime()) to dtNow
-//            While (dtCronCheck < dtNow)
-//                Move (DateAddMinute(dtCronCheck,1)) to dtCronCheck
-//                
-//                Move (DateGetMinute(dtCronCheck)) to iMinute
-//                Move (DateGetHour(dtCronCheck)) to iHour
-//                Move (DateGetDay(dtCronCheck)) to iDay
-//                Move (DateGetMonth(dtCronCheck)) to iMonth
-//                Move (DateGetDayOfWeekISO(dtCronCheck)) to iWeekDay
-//                
-//                //Send DebugLog "INFO" (String(DateGetMinute(dtNow)) + ' <> ' + String(iMinute) + ' or ' + String(DateGetHour(dtNow)) + ' <> ' + String(iHour) + ' or ' + String(DateGetDay(dtNow)) + ' <> ' + String(iDay) + ' or ' + String(DateGetMonth(dtNow)) + ' <> ' + String(iMonth) + ' or ' + String(DateGetDayOfWeek(dtNow)) + ' <> ' + String(iWeekDay))
-//        
-//                
-//                //Move (DateGetHour(dtVar)) to iHour
-//                Get getCronData 'cron.txt' (String(iMinute) + " " + String(iHour) + " " + String(iDay) + " " + String(iMonth) + " " + String(iWeekDay)) to saCronList
-//                Send None
-//                
-//        //        // For testing purpouses
-//        //        Get getCronData 'cron.txt' '0 14 1 1 2' to saCronList
-//                
-//                Move (SizeOfArray(saCronList)) to iCronCnt
-//                Move 0 to iCnt
-//                While (iCnt < iCronCnt)
-//                    // Can we do something like this?
-//                    //Send DoProcess of {saCronList[iCnt]}
-//                    
-//                    If (saCronList[iCnt] = 'oPickupReport') Send DoProcess of oPickupReport
-//                    If (saCronList[iCnt] = 'oPickupReportCsv') Begin
-//                        Set pbPrintErrors of oPickupReportCSV to False // Cleaned report
-//                        Send DoProcess of oPickupReportCSV
-//                        Set pbPrintErrors of oPickupReportCSV to True // Error report
-//                        Send DoProcess of oPickupReportCSV
-//                    End
-//                    If (saCronList[iCnt] = 'oSSLPickupReportCsv') Send DoProcess of oSSLPickupReportCSV
-//                    If (saCronList[iCnt] = 'oProductMasterImport') Send DoProcess of oProductMasterImport
-//                    
-//                    // Configured to run weekly but prevented from running all but the second week in the month, inside OnProcess
-//                    If (saCronList[iCnt] = 'oNpsSurveyMail') Send DoProcess of oNpsSurveyMail
-//                    
-//                    Increment iCnt
-//                Loop
-//            Loop
+            Move (CurrentDateTime()) to dtNow
+            If (dtCronCheck <= dtNow) Begin // Only check if we are on a new minute to prevent running same script multiple times
+                Move (DateAddMinute(dtCronCheck, 1)) to dtCronCheck
+                
+                Move (DateGetMinute(dtCronCheck)) to iMinute
+                Move (DateGetHour(dtCronCheck)) to iHour
+                Move (DateGetDay(dtCronCheck)) to iDay
+                Move (DateGetMonth(dtCronCheck)) to iMonth
+                Move (DateGetDayOfWeekISO(dtCronCheck)) to iWeekDay
+                
+                If (bTestState) Begin
+                    Move 0 to iMinute
+                    Move 0 to iHour
+                End
+        
+                Get getCronData (String(iMinute) + " " + String(iHour) + " " + String(iDay) + " " + String(iMonth) + " " + String(iWeekDay)) to saCronList
+
+                Move (SizeOfArray(saCronList)) to iCronCnt
+                Move 0 to iCnt
+                While (iCnt < iCronCnt)
+                    Move (SizeOfArray(aBPRegister)) to iBPTotalCnt
+                    Move 0 to iBPCnt
+                    While (iBPCnt < iBPTotalCnt)
+                        If (saCronList[iCnt] = aBPRegister[iBPCnt].sName) Begin
+                            Send aBPRegister[iBPCnt].hoDoProcessFunction of aBPRegister[iBPCnt].hoSourceBPObject
+                        End
+                        Increment iBPCnt
+                    Loop
+                    Increment iCnt
+                Loop
+            End
 
             If (not(bTestState)) Sleep iIntervalFrequency
             Increment iCounter
-//            Move (iCounter/100) to iLastHundred
-//            If (iCounter = iLastHundred * 100) Begin
-//                Send DebugLog "INFO" ("Cron counter: " + String(iCounter) + " < 720")
-//            End
         Until ((bExitAfterRestartAfterCycles ;
                     and iCounter > iRestartAfterCycles) ;
                 or bTestState)

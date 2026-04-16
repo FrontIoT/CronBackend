@@ -1,0 +1,22 @@
+﻿{ ClassType=Normal }
+Class cCronBackendBusinessProcess is a BusinessProcess
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+    End_Procedure
+    
+    Procedure End_Construct_Object
+        
+        Forward Send End_Construct_Object
+    End_Procedure
+
+    // PROCEDURES
+    
+    // Here you register the name and DoProcess
+    Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
+        Error 300 "You need to implement RegisterToCron procedure, for the CronBackend to identify your Business Process"
+        // Move 'oUnitTextDoNotRemove' to tBPRegister.sName
+        // Move (RefProc(OnProcess)) to tBPRegister.hoDoProcessFunction
+        // Move (Self) to tBPRegister.hoSourceBPObject
+    End_Procedure
+End_Class

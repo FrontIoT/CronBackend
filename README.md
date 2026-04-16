@@ -7,14 +7,46 @@
 ## Usage
 
     Use CronBackend\CronBackendBase.pkg
+    Use CronBackend\CronBackendBusinessProcess.pkg
     
     Class cCronBackend is a cCronBackendBase
         Procedure OnProcessStart
             // Here is a good place to put tests calls of your Business Processes to run directly during development
         End_Procedure
     End_Class
+
+    
+    Object oUnitTestDoNotRemove is a cCronBackendBusinessProcess
+        Property Boolean pbTestProcessHasRun False
+        
+        Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
+            Move 'oUnitTestDoNotRemove' to tBPRegister.sName
+            Move (RefProc(OnProcess)) to tBPRegister.hoDoProcessFunction
+            Move (Self) to tBPRegister.hoSourceBPObject
+        End_Procedure
+        
+        Procedure OnProcess
+            
+            // HERE GOES YOUR CODE THAT YOU WANT TO SCEDULE
+            
+        End_Procedure
+    
+    End_Object
     
     Object oCronBackend is a cCronBackend
+
+        Procedure OnProcessStart
+            Integer iSize
+            tBusinessProcessRegister[] atBusinessProcessRegister
+            
+            Move (SizeOfArray(atBusinessProcessRegister)) to iSize
+            // Register Business Processes here so they can be called by the script later
+            Send RegisterToCron of oUnitTestDoNotRemove (&atBusinessProcessRegister[iSize])
+            // ...
+            
+            // Store the register
+            Set paBPRegister to atBusinessProcessRegister
+        End_Procedure
     End_Object
     
     Send StartCronProcess of oCronBackend

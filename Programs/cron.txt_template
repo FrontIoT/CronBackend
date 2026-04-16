@@ -2,6 +2,6 @@
 
 # Schedule
 # m h  dom mon dow   oBusinessProcess
-0 0 * * * oUnitTextDoNotRemove
+0 0 * * * oUnitTestDoNotRemove
 0 * * * * oOnceAnHourScript
 0 0 * * * oOnceADay

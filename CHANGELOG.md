@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## \[0.1.0] - 2026-04-16
+
+* Enable you to register Business Processes to execute
+
 ## \[0.0.3] - 2026-04-16
 
 * Added function that can read the cron schedule

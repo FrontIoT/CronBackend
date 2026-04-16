@@ -23,6 +23,7 @@
         
         { Published = True }
         Procedure GetCronData
+            Boolean bProcessHasRun
             String[] asScriptsToRun
             Integer iMinute iHour iDay iMonth iWeekDay
             Move 0 to iMinute
@@ -32,10 +33,19 @@
             Move -1 to iWeekDay
 
             Get getCronData of oCronBackend (String(iMinute) + " " + String(iHour) + " " + String(iDay) + " " + String(iMonth) + " " + String(iWeekDay)) to asScriptsToRun
+            Send AssertSAreEqual 'oUnitTestDoNotRemove' asScriptsToRun[0] 'Test Business Project Object listed in cron.txt'
             
-            Send None
+
+            Set pbTestProcessHasRun of oUnitTestDoNotRemove to False
             
-            Send AssertSAreEqual 'oUnitTextDoNotRemove' asScriptsToRun[0] 'Test Business Project Object not listed in cron.txt'
+            Get pbTestProcessHasRun of oUnitTestDoNotRemove to bProcessHasRun
+            Send AssertFalse (bProcessHasRun) 'Process has not been executed'
+
+            Send StartCronProcess of oCronBackend
+
+            Get pbTestProcessHasRun of oUnitTestDoNotRemove to bProcessHasRun
+            Send AssertFalse (not(bProcessHasRun)) 'Process has been executed'
+            
         End_Procedure
     End_Object
     

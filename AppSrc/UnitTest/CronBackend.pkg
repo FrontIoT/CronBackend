@@ -1,0 +1,10 @@
+﻿Use CronBackend\CronBackendBase.pkg
+
+Class cCronBackend is a cCronBackendBase
+    Procedure Construct_Object
+        Forward Send Construct_Object
+
+        Set pbTestState to True
+    End_Procedure
+    
+End_Class
