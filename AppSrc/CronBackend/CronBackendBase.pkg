@@ -8,6 +8,8 @@ Class cCronBackendBase is a cObject
         Property Integer piRestartAfterCycles (12 * 60) // 12 * 5 seconds * 60 => 1 hour
         Property Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed
         
+        Property String psCronFilePath 'Programs\cron.txt'
+        
     End_Procedure
     
     Procedure End_Construct_Object
@@ -20,6 +22,90 @@ Class cCronBackendBase is a cObject
     // Here is a good place to put tests calls of your Business Processes to run directly during development
     Procedure OnProcessStart
     End_Procedure
+    
+    // PRIVATE
+    
+    { Visibility=Private }
+    Function getCronData String sTimeFrame Returns String[]
+        String sCronFile sData sCommentChar
+        String[] saCrons saCron saTimeFrame saRunCue
+        Integer iItm iItemCount
+        Boolean bRunScript
+    
+        Get StrSplitToArray sTimeFrame ' ' to saTimeFrame
+        Get psCronFilePath to sCronFile
+        Get ReadFile sCronFile to sData
+        Move (StrSplitToArray (sData, (Character(10)))) to saCrons
+        Move 0 to iItm
+        Move (SizeOfArray(saCrons)) to iItemCount
+        While (iItm < iItemCount)
+            Move (Left(saCrons[iItm], 1)) to sCommentChar
+            If (sCommentChar = "#" or sCommentChar = '')
+            Else Begin
+                Move (StrSplitToArray (saCrons[iItm], " ")) to saCron
+                Move True to bRunScript
+                // Check minute (0 - 59)
+                If (saCron[0] <> '*' and saCron[0] <> saTimeFrame[0]) Begin
+                    Move False to bRunScript
+                End
+                
+                // Check Hour (0 - 59)
+                If (saCron[1] <> '*' and saCron[1] <> saTimeFrame[1]) Begin
+                    Move False to bRunScript
+                End
+                
+                // Check Day of Month (0 - 31)
+                If (saCron[2] <> '*' and saCron[2] <> saTimeFrame[2]) Begin
+                    Move False to bRunScript
+                End
+                
+                // Check Month (1 - 12)
+                If (saCron[3] <> '*' and saCron[3] <> saTimeFrame[3]) Begin
+                    Move False to bRunScript
+                End
+                
+                // Check Week (0 - 6 + 7) Sunday to Saturday + Sunday
+                If (saCron[4] <> '*' and saCron[4] <> saTimeFrame[4]) Begin
+                    Move False to bRunScript
+                End
+                
+                If (bRunScript) Move saCron[5] to saRunCue[(SizeOfArray(saRunCue))]
+            End
+            Increment iItm
+        Loop
+        
+        Function_Return saRunCue
+    End_Function
+    
+    { Visibility=Private }
+    Function ReadFile String sFilePath Returns String
+        String sUploadDir sData sBuffer sFullFilePath sCr
+        Handle hoWorkSpace
+        Integer iChannel
+        Move "" to sCr
+        Move (Seq_New_Channel()) to iChannel
+        If (iChannel=DF_SEQ_CHANNEL_NOT_AVAILABLE) Begin
+            Function_Return "Error! Cannot open file. Channel is not available."
+        End 
+        Else Begin
+            Get phoWorkspace of ghoApplication to hoWorkspace
+            Get psHome of hoWorkspace to sUploadDir
+            Move (sUploadDir - sFilePath) to sFullFilePath
+            Direct_Input channel iChannel sFullFilePath
+            If (not(SeqEof)) Begin   // File exists.
+                Repeat
+                    Readln channel iChannel sBuffer
+                    Move (sData+sCr+sBuffer) to sData
+                    Move (Character(10)) to sCr
+                Until (SeqEof)
+            End
+            Else Move ("File not found: " + sFullFilePath) to sData
+            
+            Close_Input channel iChannel
+        End
+        Function_Return sData
+    End_Function
+    
     
     // MAIN PROCESS
     
@@ -49,25 +135,6 @@ Class cCronBackendBase is a cObject
 //        String sApplicationPath
 //        Get psHome of (oWorkspace(oApplication)) to sApplicationPath
 //        Send DebugLog "INFO" ("Cron Backend script started " + sApplicationPath)
-//        
-//        
-//        // REMA 1000
-//        //Send DoProcess of oPickupReport
-//        
-//        // Salling Group
-//        //Set pdResendDate of oPickupReportCSV to '11-02-2026'
-//        //Set pbPrintErrors of oPickupReportCSV to False
-//        //Send DoProcess of oPickupReportCSV
-//        //Set pbPrintErrors of oPickupReportCSV to True
-//        //Send DoProcess of oPickupReportCSV
-//        
-//        //Send DoProcess of oProductMasterImport
-//        //Send DoProcess of oSSLPickupReportCSV
-//        //Send DoProcess of oNpsSurveyMail
-//        
-//        Integer iLastHundred
-//        
-//        
 //        
 //        Move (CurrentDateTime()) to dtNow
 //        Move dtNow to dtCronCheck

@@ -20,6 +20,23 @@
             Get pbProcessHasStarted of oCronBackend to bProcessHasStarted
             Send AssertFalse (not(bProcessHasStarted)) 'Process has started'
         End_Procedure
+        
+        { Published = True }
+        Procedure GetCronData
+            String[] asScriptsToRun
+            Integer iMinute iHour iDay iMonth iWeekDay
+            Move 0 to iMinute
+            Move 0 to iHour
+            Move -1 to iDay
+            Move -1 to iMonth
+            Move -1 to iWeekDay
+
+            Get getCronData of oCronBackend (String(iMinute) + " " + String(iHour) + " " + String(iDay) + " " + String(iMonth) + " " + String(iWeekDay)) to asScriptsToRun
+            
+            Send None
+            
+            Send AssertSAreEqual 'oUnitTextDoNotRemove' asScriptsToRun[0] 'Test Business Project Object not listed in cron.txt'
+        End_Procedure
     End_Object
     
 End_Object
