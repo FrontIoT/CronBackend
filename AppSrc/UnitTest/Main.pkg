@@ -10,6 +10,7 @@
         { Published = True }
         Procedure ProcessStarts
             Boolean bProcessHasStarted
+            Set pbProcessHasStarted of oCronBackend to False
             
             Get pbProcessHasStarted of oCronBackend to bProcessHasStarted
             Send AssertFalse (bProcessHasStarted) 'Process has not started'
