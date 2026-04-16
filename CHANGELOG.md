@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## \[0.0.2] - 2026-04-16
+
+* Added the basic loop with test option
+
 ## \[0.0.1] - 2026-04-16
 
 * Initial version as a package.

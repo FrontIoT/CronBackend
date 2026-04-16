@@ -2,8 +2,6 @@
 Use DFAllEnt.pkg
 Use cCJStandardCommandBarSystem.pkg
 
-Use CronBackend\CronBackendBase.pkg
-
 Object oHtmlHelp is a cHtmlHelp
 End_Object
 
@@ -17,6 +15,7 @@ Object oApplication is a cApplication
 
 End_Object
 
+Use CronBackend\CronBackendBase.pkg
 
 Class cCronBackend is a cCronBackendBase
     Procedure Construct_Object
