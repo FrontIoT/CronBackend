@@ -4,6 +4,15 @@
 
     This library create an easy way to schedule BusinessProcess in your application through a crontab-like configuration file.
     
+    The idea is that you have one script that run all your backend processes when you want them to run.
+    
+    cCronBackendBusinessProcess is a regular BusinessProcess and work the same way appart from the added RegisterToCron procedure.
+    This is where you put your code in DoProcess
+    
+    The cron.txt file have the familiar crontab structure that is standard in all Linux distributions.
+    But instead of a Linux command to be executed this file contains the BusinessProcess object name to be executed
+    # m h  dom mon dow   oBusinessProcess
+    
 ## Usage
 
     Use CronBackend\CronBackendBase.pkg
@@ -17,8 +26,6 @@
 
     
     Object oUnitTestDoNotRemove is a cCronBackendBusinessProcess
-        Property Boolean pbTestProcessHasRun False
-        
         Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
             Move 'oUnitTestDoNotRemove' to tBPRegister.sName
             Move (RefProc(OnProcess)) to tBPRegister.hoDoProcessFunction
@@ -27,7 +34,7 @@
         
         Procedure OnProcess
             
-            // HERE GOES YOUR CODE THAT YOU WANT TO SCEDULE
+            // HERE GOES YOUR CODE THAT YOU WANT TO SCHEDULE
             
         End_Procedure
     
