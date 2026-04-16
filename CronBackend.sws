@@ -1,0 +1,21 @@
+{
+    "dependencies": [
+        "DataFlex-dev/DFUnit#1.0.1"
+    ],
+    "description": "Managing jobbs that should be executed based on time",
+    "df": 26.0,
+    "package": {
+        "df-max": 26.0,
+        "df-min": 23.0,
+        "includeFiles": [
+            "CHANGELOG.md"
+        ],
+        "license": "GPL",
+        "licenseFile": "LICENSE",
+        "version": "0.0.1"
+    },
+    "projects": [
+        "UnitTest.src"
+    ],
+    "workspaceName": "Cron Backend Scheduler"
+}

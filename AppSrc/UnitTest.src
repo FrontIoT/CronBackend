@@ -1,0 +1,22 @@
+﻿Use DFUnit.pkg
+Use DFAllEnt.pkg
+Use cCJStandardCommandBarSystem.pkg
+
+Object oHtmlHelp is a cHtmlHelp
+End_Object
+
+Object oApplication is a cApplication
+    Set peHelpType to htHtmlHelp
+
+    Object oConnection is a cConnection
+        Use LoginEncryption.pkg
+        Use DatabaseLoginDialog.dg
+    End_Object
+
+End_Object
+
+
+Object oTestApplication is a cDFUnitTestApplication
+    Set pbUseUI to False
+
+End_Object

@@ -1,0 +1,103 @@
+﻿{ ClassType=Abstract }
+Class cCronBackendBase is a cObject
+    Procedure Construct_Object
+        Forward Send Construct_Object
+        
+    End_Procedure
+    
+    Procedure End_Construct_Object
+        
+        Forward Send End_Construct_Object
+    End_Procedure
+    
+    Procedure StartCronProcess
+//        String[] saCronList
+//
+//        Integer iMinute iHour iDay iMonth iWeekDay iCronCnt iCnt
+//        DateTime dtNow dtCronCheck
+//        Move (CurrentDateTime()) to dtNow
+//        
+//        Move (DateGetMinute(dtNow)) to iMinute
+//        Move (DateGetHour(dtNow)) to iHour
+//        Move (DateGetDay(dtNow)) to iDay
+//        Move (DateGetMonth(dtNow)) to iMonth
+//        Move (DateGetDayOfWeek(dtNow)) to iWeekDay
+//        
+//        String sApplicationPath
+//        Get psHome of (oWorkspace(oApplication)) to sApplicationPath
+//        Send DebugLog "INFO" ("Cron Backend script started " + sApplicationPath)
+//        
+//        
+//        // REMA 1000
+//        //Send DoProcess of oPickupReport
+//        
+//        // Salling Group
+//        //Set pdResendDate of oPickupReportCSV to '11-02-2026'
+//        //Set pbPrintErrors of oPickupReportCSV to False
+//        //Send DoProcess of oPickupReportCSV
+//        //Set pbPrintErrors of oPickupReportCSV to True
+//        //Send DoProcess of oPickupReportCSV
+//        
+//        //Send DoProcess of oProductMasterImport
+//        //Send DoProcess of oSSLPickupReportCSV
+//        //Send DoProcess of oNpsSurveyMail
+//        
+//        Integer iCounter iLastHundred
+//        
+//        
+//        
+//        Move (CurrentDateTime()) to dtNow
+//        Move dtNow to dtCronCheck
+//        
+//        Repeat
+//            Sleep 5
+//            Move (CurrentDateTime()) to dtNow
+//            While (dtCronCheck < dtNow)
+//                Move (DateAddMinute(dtCronCheck,1)) to dtCronCheck
+//                
+//                Move (DateGetMinute(dtCronCheck)) to iMinute
+//                Move (DateGetHour(dtCronCheck)) to iHour
+//                Move (DateGetDay(dtCronCheck)) to iDay
+//                Move (DateGetMonth(dtCronCheck)) to iMonth
+//                Move (DateGetDayOfWeekISO(dtCronCheck)) to iWeekDay
+//                
+//                //Send DebugLog "INFO" (String(DateGetMinute(dtNow)) + ' <> ' + String(iMinute) + ' or ' + String(DateGetHour(dtNow)) + ' <> ' + String(iHour) + ' or ' + String(DateGetDay(dtNow)) + ' <> ' + String(iDay) + ' or ' + String(DateGetMonth(dtNow)) + ' <> ' + String(iMonth) + ' or ' + String(DateGetDayOfWeek(dtNow)) + ' <> ' + String(iWeekDay))
+//        
+//                
+//                //Move (DateGetHour(dtVar)) to iHour
+//                Get getCronData 'cron.txt' (String(iMinute) + " " + String(iHour) + " " + String(iDay) + " " + String(iMonth) + " " + String(iWeekDay)) to saCronList
+//                Send None
+//                
+//        //        // For testing purpouses
+//        //        Get getCronData 'cron.txt' '0 14 1 1 2' to saCronList
+//                
+//                Move (SizeOfArray(saCronList)) to iCronCnt
+//                Move 0 to iCnt
+//                While (iCnt < iCronCnt)
+//                    // Can we do something like this?
+//                    //Send DoProcess of {saCronList[iCnt]}
+//                    
+//                    If (saCronList[iCnt] = 'oPickupReport') Send DoProcess of oPickupReport
+//                    If (saCronList[iCnt] = 'oPickupReportCsv') Begin
+//                        Set pbPrintErrors of oPickupReportCSV to False // Cleaned report
+//                        Send DoProcess of oPickupReportCSV
+//                        Set pbPrintErrors of oPickupReportCSV to True // Error report
+//                        Send DoProcess of oPickupReportCSV
+//                    End
+//                    If (saCronList[iCnt] = 'oSSLPickupReportCsv') Send DoProcess of oSSLPickupReportCSV
+//                    If (saCronList[iCnt] = 'oProductMasterImport') Send DoProcess of oProductMasterImport
+//                    
+//                    // Configured to run weekly but prevented from running all but the second week in the month, inside OnProcess
+//                    If (saCronList[iCnt] = 'oNpsSurveyMail') Send DoProcess of oNpsSurveyMail
+//                    
+//                    Increment iCnt
+//                Loop
+//            Loop
+//            Increment iCounter
+//            Move (iCounter/100) to iLastHundred
+//            If (iCounter = iLastHundred * 100) Begin
+//                Send DebugLog "INFO" ("Cron counter: " + String(iCounter) + " < 720")
+//            End
+//        Until (iCounter > (12 * 60)) // Restart once every hour
+    End_Procedure
+End_Class

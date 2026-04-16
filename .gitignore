@@ -1,0 +1,13 @@
+﻿DfPkg
+Data
+DDSrc
+AppSrc/config
+**.inc
+**.cfg
+**.dep
+**.prn
+**.manifest
+IdeSrc
+**.dbg
+**.exe
+**.lock
