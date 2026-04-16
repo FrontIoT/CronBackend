@@ -2,6 +2,8 @@
 Use DFAllEnt.pkg
 Use cCJStandardCommandBarSystem.pkg
 
+Use CronBackend\CronBackendBase.pkg
+
 Object oHtmlHelp is a cHtmlHelp
 End_Object
 
@@ -16,7 +18,27 @@ Object oApplication is a cApplication
 End_Object
 
 
+Class cCronBackend is a cCronBackendBase
+    Procedure Construct_Object
+        Forward Send Construct_Object
+
+        Set pbTestState to True
+    End_Procedure
+    
+End_Class
+
+Object oCronBackend is a cCronBackend
+    Property Boolean pbProcessHasStarted False
+    
+    Procedure OnProcessStart
+        Set pbProcessHasStarted to True
+    End_Procedure
+    
+End_Object
+
 Object oTestApplication is a cDFUnitTestApplication
     Set pbUseUI to False
-
+    
+    Use UnitTest\Main.pkg
+    
 End_Object

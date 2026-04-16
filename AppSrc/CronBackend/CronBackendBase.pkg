@@ -3,6 +3,11 @@ Class cCronBackendBase is a cObject
     Procedure Construct_Object
         Forward Send Construct_Object
         
+        Property Boolean pbTestState False // Primarilly used for UnitTest. Only run through the loop once
+        Property Integer piIntervalFrequency 5 // Seconds between cycles
+        Property Integer piRestartAfterCycles (12 * 60) // 12 * 5 seconds * 60 => 1 hour
+        Property Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed
+        
     End_Procedure
     
     Procedure End_Construct_Object
@@ -10,7 +15,25 @@ Class cCronBackendBase is a cObject
         Forward Send End_Construct_Object
     End_Procedure
     
+    // EVENTS
+    
+    // Here is a good place to put tests calls of your Business Processes to run directly during development
+    Procedure OnProcessStart
+    End_Procedure
+    
+    // MAIN PROCESS
+    
     Procedure StartCronProcess
+        Boolean bTestState bExitAfterRestartAfterCycles
+        Integer iIntervalFrequency iRestartAfterCycles iCounter
+        
+        Get pbTestState to bTestState
+        Get piIntervalFrequency to iIntervalFrequency
+        Get piRestartAfterCycles to iRestartAfterCycles
+        Get pbExitAfterRestartAfterCycles to bExitAfterRestartAfterCycles
+        
+        Send OnProcessStart
+        
 //        String[] saCronList
 //
 //        Integer iMinute iHour iDay iMonth iWeekDay iCronCnt iCnt
@@ -42,15 +65,16 @@ Class cCronBackendBase is a cObject
 //        //Send DoProcess of oSSLPickupReportCSV
 //        //Send DoProcess of oNpsSurveyMail
 //        
-//        Integer iCounter iLastHundred
+//        Integer iLastHundred
 //        
 //        
 //        
 //        Move (CurrentDateTime()) to dtNow
 //        Move dtNow to dtCronCheck
 //        
-//        Repeat
-//            Sleep 5
+        Move 0 to iCounter
+        Repeat
+            
 //            Move (CurrentDateTime()) to dtNow
 //            While (dtCronCheck < dtNow)
 //                Move (DateAddMinute(dtCronCheck,1)) to dtCronCheck
@@ -93,11 +117,15 @@ Class cCronBackendBase is a cObject
 //                    Increment iCnt
 //                Loop
 //            Loop
-//            Increment iCounter
+
+            If (not(bTestState)) Sleep iIntervalFrequency
+            Increment iCounter
 //            Move (iCounter/100) to iLastHundred
 //            If (iCounter = iLastHundred * 100) Begin
 //                Send DebugLog "INFO" ("Cron counter: " + String(iCounter) + " < 720")
 //            End
-//        Until (iCounter > (12 * 60)) // Restart once every hour
+        Until ((bExitAfterRestartAfterCycles ;
+                    and iCounter > iRestartAfterCycles) ;
+                or bTestState)
     End_Procedure
 End_Class

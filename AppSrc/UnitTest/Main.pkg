@@ -1,0 +1,24 @@
+﻿Object oCronBackendFixtures is a cTestFixture
+    Procedure Setup
+    End_Procedure
+    
+    Procedure TearDown
+    End_Procedure
+    
+    Object MainStructure is a cTestFixture
+        
+        { Published = True }
+        Procedure ProcessStarts
+            Boolean bProcessHasStarted
+            
+            Get pbProcessHasStarted of oCronBackend to bProcessHasStarted
+            Send AssertFalse (bProcessHasStarted) 'Process has not started'
+            
+            Send StartCronProcess of oCronBackend
+            
+            Get pbProcessHasStarted of oCronBackend to bProcessHasStarted
+            Send AssertFalse (not(bProcessHasStarted)) 'Process has started'
+        End_Procedure
+    End_Object
+    
+End_Object
