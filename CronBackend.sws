@@ -12,7 +12,7 @@
         ],
         "license": "GPL",
         "licenseFile": "LICENSE",
-        "version": "0.0.1"
+        "version": "0.1.3"
     },
     "projects": [
         "UnitTest.src"
