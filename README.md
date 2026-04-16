@@ -2,17 +2,17 @@
 
 ## Description
 
-    This library create an easy way to schedule BusinessProcess in your application through a crontab-like configuration file.
-    
-    The idea is that you have one script that run all your backend processes when you want them to run.
-    
-    cCronBackendBusinessProcess is a regular BusinessProcess and work the same way appart from the added RegisterToCron procedure.
-    This is where you put your code in DoProcess
-    
-    The cron.txt file have the familiar crontab structure that is standard in all Linux distributions.
-    But instead of a Linux command to be executed this file contains the BusinessProcess object name to be executed
-    # m h  dom mon dow   oBusinessProcess
-    
+    This library create an easy way to schedule BusinessProcess in your application through a crontab-like configuration file.\
+    \
+    The idea is that you have one script that run all your backend processes when you want them to run.\
+    \
+    cCronBackendBusinessProcess is a regular BusinessProcess and work the same way appart from the added RegisterToCron procedure.\
+    This is where you put your code in DoProcess\
+    \
+    The cron.txt file have the familiar crontab structure that is standard in all Linux distributions.\
+    But instead of a Linux command to be executed this file contains the BusinessProcess object name to be executed\
+    # m h  dom mon dow   oBusinessProcess\
+    \
 ## Usage
 
     Use CronBackend\CronBackendBase.pkg
@@ -60,14 +60,14 @@
     
     
 ## Properties<br>
-
-    Boolean pbTestState False // Primarilly used for UnitTest. Only run through the loop once
-    Integer piIntervalFrequency 5 // Seconds between cycles
-    Integer piRestartAfterCycles (12 * 60) // 12 * 5 seconds * 60 => 1 hour
-    Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed
-    
-    String psCronFilePath 'Programs\cron.txt' // Default path to cron.txt file where the schedule is configured
-
+<br>
+    Boolean pbTestState False // Primarilly used for UnitTest. Only run through the loop once<br>
+    Integer piIntervalFrequency 5 // Seconds between cycles<br>
+    Integer piRestartAfterCycles (12 * 60) // 12 * 5 seconds * 60 => 1 hour<br>
+    Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed<br>
+    <br>
+    String psCronFilePath 'Programs\cron.txt' // Default path to cron.txt file where the schedule is configured<br>
+<br>
 ## TODO
 
     [ ] There are some features in a regular crontab that has been left out here like the */x syntax to run every x:th minute or hours
