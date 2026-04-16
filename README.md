@@ -67,3 +67,8 @@
     Boolean pbExitAfterRestartAfterCycles False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed
     
     String psCronFilePath 'Programs\cron.txt' // Default path to cron.txt file where the schedule is configured
+
+## TODO
+
+    [ ] There are some features in a regular crontab that has been left out here like the */x syntax to run every x:th minute or hours
+    [ ] OnProcessStart in cCronBackendBase might be clearer if we rename or add a separate procedure like RegisterBusinessProcesses
