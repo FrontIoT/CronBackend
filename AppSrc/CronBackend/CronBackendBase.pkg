@@ -85,7 +85,8 @@ Class cCronBackendBase is a cObject
         Move "" to sCr
         Move (Seq_New_Channel()) to iChannel
         If (iChannel=DF_SEQ_CHANNEL_NOT_AVAILABLE) Begin
-            Function_Return "Error! Cannot open file. Channel is not available."
+            Error 300 "Error! Cannot open file. Channel is not available."
+            Function_Return ""
         End 
         Else Begin
             Get phoWorkspace of ghoApplication to hoWorkspace
@@ -101,6 +102,7 @@ Class cCronBackendBase is a cObject
             End
             Else Move ("File not found: " + sFullFilePath) to sData
             
+            Send Seq_Release_Channel iChannel
             Close_Input channel iChannel
         End
         Function_Return sData
