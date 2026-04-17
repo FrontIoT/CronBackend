@@ -9,4 +9,4 @@ IdeSrcPath=IdeSrc
 HelpPath=Help
 ProgramPath=Programs
 FileList=Data\Filelist.cfg
-Description=Managing jobbs that should be executed based on time
+Description=Managing jobs that should be executed based on time
