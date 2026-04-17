@@ -1,6 +1,4 @@
 ﻿Struct tBusinessProcessRegister
-    { Name="Name" }
-    String  sName
     { Name="DoProcessFunction" }
     Handle hoDoProcessFunction
     { Name="SourceBPObject" }

@@ -133,6 +133,7 @@ Class cCronBackendBase is a cObject
         Boolean bTestState bExitAfterRestartAfterCycles
         Integer iIntervalFrequency iRestartAfterCycles iCounter
         tBusinessProcessRegister[] aBPRegister
+        String sObjectLabel
         
         Get pbTestState to bTestState
         Get piIntervalFrequency to iIntervalFrequency
@@ -185,7 +186,8 @@ Class cCronBackendBase is a cObject
                     Move (SizeOfArray(aBPRegister)) to iBPTotalCnt
                     Move 0 to iBPCnt
                     While (iBPCnt < iBPTotalCnt)
-                        If (saCronList[iCnt] = aBPRegister[iBPCnt].sName) Begin
+                        Get Object_Label of aBPRegister[iBPCnt].hoSourceBPObject to sObjectLabel
+                        If (saCronList[iCnt] = sObjectLabel) Begin
                             Send aBPRegister[iBPCnt].hoDoProcessFunction of aBPRegister[iBPCnt].hoSourceBPObject
                         End
                         Increment iBPCnt

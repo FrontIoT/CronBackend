@@ -4,7 +4,6 @@ Object oUnitTestDoNotRemove is a cCronBackendBusinessProcess
     Property Boolean pbTestProcessHasRun False
     
     Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
-        Move 'oUnitTestDoNotRemove' to tBPRegister.sName
         Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
         Move (Self) to tBPRegister.hoSourceBPObject
     End_Procedure

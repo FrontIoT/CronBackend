@@ -15,7 +15,6 @@ Class cCronBackendBusinessProcess is a BusinessProcess
     // Here you register the name and DoProcess
     Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
         Error DFERR_PROGRAM "You need to implement RegisterToCron procedure, for the CronBackend to identify your Business Process"
-        // Move 'oUnitTextDoNotRemove' to tBPRegister.sName
         // Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
         // Move (Self) to tBPRegister.hoSourceBPObject
     End_Procedure
