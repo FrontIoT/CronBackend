@@ -16,7 +16,7 @@ Class cCronBackendBusinessProcess is a BusinessProcess
     Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
         Error 300 "You need to implement RegisterToCron procedure, for the CronBackend to identify your Business Process"
         // Move 'oUnitTextDoNotRemove' to tBPRegister.sName
-        // Move (RefProc(OnProcess)) to tBPRegister.hoDoProcessFunction
+        // Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
         // Move (Self) to tBPRegister.hoSourceBPObject
     End_Procedure
 End_Class
