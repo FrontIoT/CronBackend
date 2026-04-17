@@ -25,7 +25,7 @@ Class cCronBackendBase is a cObject
     
     // Here is a good place to put tests calls of your Business Processes to run directly during development
     Procedure OnProcessStart
-        Error 300 "You need to implement this in order to register Business Processes that should be executed"
+        Error DFERR_PROGRAM "You need to implement this in order to register Business Processes that should be executed"
         
         // Integer iSize
         // tBusinessProcessRegister[] atBusinessProcessRegister
@@ -103,7 +103,7 @@ Class cCronBackendBase is a cObject
         Move "" to sCr
         Move (Seq_New_Channel()) to iChannel
         If (iChannel=DF_SEQ_CHANNEL_NOT_AVAILABLE) Begin
-            Error 300 "Error! Cannot open file. Channel is not available."
+            Error DFERR_PROGRAM "Error! Cannot open file. Channel is not available."
             Function_Return ""
         End 
         Else Begin
