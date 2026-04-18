@@ -15,12 +15,14 @@ Object oApplication is a cApplication
 
 End_Object
 
-Use UnitTest\CronBackend.pkg
+Use CronBackend\CronBackendDefault.pkg
 Use UnitTest\BusinessProcess\UnitTestDoNotRemove.pkg
 
-Object oCronBackend is a cCronBackend
+Object oCronBackend is a cCronBackendDefault
     Property Boolean pbProcessHasStarted False
     
+    Set pbTestState to True // This is for the UnitTests to work
+        
     Procedure OnProcessStart
         Integer iSize
         tBusinessProcessRegister[] atBusinessProcessRegister

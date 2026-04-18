@@ -1,10 +1,9 @@
 ﻿Use CronBackend\CronBackendBase.pkg
 
-Class cCronBackend is a cCronBackendBase
+Class cCronBackendDefault is a cCronBackendBase
     Procedure Construct_Object
         Forward Send Construct_Object
-
-        Set pbTestState to True
+        Set psCronFilePath to 'Programs\cron.txt'
     End_Procedure
     
 End_Class

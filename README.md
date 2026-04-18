@@ -15,16 +15,10 @@
     <br>
 <b>## Usage</b><br>
 <br>
-    Use CronBackend\CronBackendBase.pkg<br>
+    Use CronBackend\CronBackendDefault.pkg<br>
     Use CronBackend\CronBackendBusinessProcess.pkg<br>
     <br>
-    Class cCronBackend is a cCronBackendBase<br>
-        Procedure OnProcessStart<br>
-            // Here is a good place to put tests calls of your Business Processes to run directly during development<br>
-        End_Procedure<br>
-    End_Class<br>
-    <br>
-    Object oUnitTestDoNotRemove is a cCronBackendBusinessProcess<br>
+    Object oMyCronBackendBP is a cCronBackendBusinessProcess<br>
         Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister<br>
             Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction<br>
             Move (Self) to tBPRegister.hoSourceBPObject<br>
@@ -37,7 +31,7 @@
         End_Procedure<br>
     End_Object<br>
     <br>
-    Object oCronBackend is a cCronBackend<br>
+    Object oCronBackend is a cCronBackendDefault<br>
         Procedure OnProcessStart<br>
             Integer iSize<br>
             tBusinessProcessRegister[] atBusinessProcessRegister<br>
@@ -57,11 +51,19 @@
 <b>## Properties</b><br>
 <br>
     Boolean <b>pbTestState</b> False // Primarilly used for UnitTest. Only run through the loop once<br>
-    Integer <b>piIntervalFrequency</b> 5 // Seconds between cycles<br>
-    Integer <b>piRestartAfterCycles</b> (12 * 60) // 12 * 5 seconds * 60 => 1 hour<br>
+    Integer <b>piIntervalFrequency</b> 60 // Seconds between cycles<br>
+    Integer <b>piRestartAfterCycles</b> 60 // (60 / piIntervalFrequency) * seconds to restart. Only used to aviod eventual memory leak problems<br>
     Boolean <b>pbExitAfterRestartAfterCycles</b> False // Use this if you have issues with memory leaks and configure the TaskManager in Windows to restart if it is closed<br>
     <br>
     String psCronFilePath 'Programs\cron.txt' // Default path to cron.txt file where the schedule is configured<br>
+<br>
+<b>## Project structure</b>
+<br>
+In order to keep the implementation version as clean as possible the Development version with Unit Tests are in a separate SWS-file.<br>
+<b>CronBackend.sws</b><br>
+- Core library workspace. No external dependencies. (End-Users / Implementers)<br>
+<b>CronBackendUnitTest.sws</b><br>
+- Development workspace. Includes the Unit Test library. (Developers / Maintainers)<br>
 <br>
 <b>## TODO</b><br>
 <br>

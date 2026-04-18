@@ -5,7 +5,7 @@
     Procedure TearDown
     End_Procedure
     
-    Object MainStructure is a cTestFixture
+    Object oCronBackendMainTests is a cTestFixture
         
         { Published = True }
         Procedure ProcessStarts
