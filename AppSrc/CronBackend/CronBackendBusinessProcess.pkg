@@ -1,21 +1,18 @@
-﻿{ ClassType=Normal }
+﻿Use CronBackend\Stucts\BusinessProcessRegister.pkg
+
+{ ClassType=Normal }
 Class cCronBackendBusinessProcess is a BusinessProcess
-    Procedure Construct_Object
-        Forward Send Construct_Object
+
+    Procedure RegisterToCron Handle hoCronBackend
+        tBusinessProcessRegister tBPRegister
+        tBusinessProcessRegister[] atBPRegister
         
-    End_Procedure
-    
-    Procedure End_Construct_Object
+        Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
+        Move (Self) to tBPRegister.hoSourceBPObject
         
-        Forward Send End_Construct_Object
+        Get paBPRegister of hoCronBackend to atBPRegister
+        Move tBPRegister to atBPRegister[-1]
+        Set paBPRegister of hoCronBackend to atBPRegister
     End_Procedure
 
-    // PROCEDURES
-    
-    // Here you register the name and DoProcess
-    Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
-        Error DFERR_PROGRAM "You need to implement RegisterToCron procedure, for the CronBackend to identify your Business Process"
-        // Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
-        // Move (Self) to tBPRegister.hoSourceBPObject
-    End_Procedure
 End_Class

@@ -19,30 +19,19 @@
     Use CronBackend\CronBackendBusinessProcess.pkg<br>
     <br>
     Object oMyCronBackendBP is a cCronBackendBusinessProcess<br>
-        Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister<br>
-            Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction<br>
-            Move (Self) to tBPRegister.hoSourceBPObject<br>
-        End_Procedure<br>
-        
         Procedure OnProcess<br>
             <br>
-            // HERE GOES YOUR CODE THAT YOU WANT TO SCHEDULE<br>
+            // <b>HERE GOES YOUR CODE THAT YOU WANT TO SCHEDULE</b><br>
             <br>
         End_Procedure<br>
     End_Object<br>
     <br>
     Object oCronBackend is a cCronBackendDefault<br>
         Procedure OnProcessStart<br>
-            Integer iSize<br>
-            tBusinessProcessRegister[] atBusinessProcessRegister<br>
-            <br>
-            Move (SizeOfArray(atBusinessProcessRegister)) to iSize<br>
             // Register Business Processes here so they can be called by the script later<br>
-            Send RegisterToCron of oUnitTestDoNotRemove (&atBusinessProcessRegister[iSize])<br>
+            Send RegisterToCron of oUnitTestDoNotRemove Self<br>
             // ...<br>
             <br>
-            // Store the register<br>
-            Set paBPRegister to atBusinessProcessRegister<br>
         End_Procedure<br>
     End_Object<br>
     <br>

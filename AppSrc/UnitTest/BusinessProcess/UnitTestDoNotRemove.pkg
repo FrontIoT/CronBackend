@@ -1,15 +1,10 @@
 ﻿Use CronBackend\CronBackendBusinessProcess.pkg
 
 Object oUnitTestDoNotRemove is a cCronBackendBusinessProcess
-    Property Boolean pbTestProcessHasRun False
-    
-    Procedure RegisterToCron tBusinessProcessRegister ByRef tBPRegister
-        Move (RefProc(DoProcess)) to tBPRegister.hoDoProcessFunction
-        Move (Self) to tBPRegister.hoSourceBPObject
-    End_Procedure
+    Property Boolean pbTestProcessHasRun False // Used to validate Unit Tests
     
     Procedure OnProcess
-        Set pbTestProcessHasRun to True
+        Set pbTestProcessHasRun to True // Used to validate Unit Tests
     End_Procedure
 
 End_Object

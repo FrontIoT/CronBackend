@@ -9,6 +9,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+## \[0.2.0] - 2026-04-17
+
+* Simplify the reuirements to use this library
+* Separate unit test workspace file
+* Update license to MIT
+* Other cleanup of the code
+
 ## \[0.1.0] - 2026-04-16
 
 * Enable you to register Business Processes to execute
