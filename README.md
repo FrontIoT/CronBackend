@@ -60,3 +60,4 @@ In order to keep the implementation version as clean as possible the Development
 <br>
     [ ] There are some features in a regular crontab that has been left out here like the */x syntax to run every x:th minute or hours<br>
     [ ] OnProcessStart in cCronBackendBase might be clearer if we rename or add a separate procedure like RegisterBusinessProcesses<br>
+    [ ] Update the cron.txt to expect input from any source. So, that you can change the trigger schedule real time in the application<br>
