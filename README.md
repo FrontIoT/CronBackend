@@ -13,6 +13,8 @@
     But instead of a Linux command to be executed this file contains the BusinessProcess object name to be executed<br>
     # m h  dom mon dow   oBusinessProcess<br>
     <br>
+    If you want this to run as an actual service in Windows, I recommend looking at https://github.com/NilsSve/WindowsServices<br>
+    <br>
 <b>## Usage</b><br>
 <br>
     Use CronBackend\CronBackendDefault.pkg<br>
